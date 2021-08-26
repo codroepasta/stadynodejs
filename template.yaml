@@ -1,0 +1,44 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Express
+
+  Sample SAM Template for Express
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 15
+
+Resources:
+  ExpressFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: ./
+      Handler: lambda.handler
+      Runtime: nodejs14.x
+      Environment:
+        Variables:
+          PORT: 3000
+          TIMEZONE: Asia/Tokyo
+          MAINTENANCE_ENABLE: false
+          LOG_NAME: express
+          LOG_LEVEL: debug
+          DB_TYPE: sqlite
+          SQLITE_DIALECT: sqlite
+          SQLITE_STORAGE: ./db/express.db
+          SQLITE_POOL_MAX: 1
+          SQLITE_POOL_MIN: 1
+          SQLITE_POOL_ACQUIRE: 30000
+          SQLITE_POOL_IDLE: 10000
+          CORS_ENABLE: true
+          CORS_WHITE_LIST: '["http://localhost", "https://localhost"]'
+          JWT_SECRET: bb90cfc1-5cf2-4de0-bfce-bf3c68d078c6
+          JWT_OPTIONS_EXPIRES_IN: 1h
+          SALT_ROUNDS: 10
+      Events:
+        ExpressApi:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: "{proxy+}"
+            Method: ANY

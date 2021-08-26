@@ -1,0 +1,24 @@
+[
+  {
+    "id": 1,
+    "name": "ADMINISTRATOR",
+    "remark": "All permissions available.",
+    "created_user": "TEST_DATA",
+    "created_date": "2021-01-01 00:00:00.000",
+    "updated_user": "TEST_DATA",
+    "updated_date": "2021-01-01 00:00:00.000",
+    "deleted_user": null,
+    "deleted_date": null
+  },
+  {
+    "id": 2,
+    "name": "USER",
+    "remark": "Some permissions available.",
+    "created_user": "TEST_DATA",
+    "created_date": "2021-01-01 00:00:00.000",
+    "updated_user": "TEST_DATA",
+    "updated_date": "2021-01-01 00:00:00.000",
+    "deleted_user": null,
+    "deleted_date": null
+  }
+]

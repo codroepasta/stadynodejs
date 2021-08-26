@@ -1,0 +1,51 @@
+{
+  "name": "api",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "cross-env NODE_ENV=development node ./bin/www",
+    "test": "cross-env NODE_ENV=__tests__ jest api.js",
+    "script:data": "cross-env NODE_ENV=development node ./script/data",
+    "script:secret": "cross-env NODE_ENV=development node ./script/secret",
+    "ncu": "run-s ncu:update ncu:clean ncu:install",
+    "ncu:update": "ncu -u",
+    "ncu:clean": "npm cache clean -f",
+    "ncu:install": "npm i"
+  },
+  "dependencies": {
+    "@vendia/serverless-express": "^4.3.8",
+    "bcrypt": "^5.0.1",
+    "bunyan": "^1.8.15",
+    "bunyan-format": "^0.2.1",
+    "cookie-parser": "~1.4.5",
+    "cors": "^2.8.5",
+    "csurf": "^1.11.0",
+    "dotenv": "^10.0.0",
+    "ejs": "~3.1.6",
+    "express": "~4.17.1",
+    "express-validator": "^6.11.1",
+    "helmet": "^4.6.0",
+    "http-errors": "~1.8.0",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.1",
+    "moment-timezone": "^0.5.33",
+    "nanoid": "^3.1.23",
+    "nedb": "^1.8.0",
+    "nocache": "^2.1.0",
+    "on-finished": "^2.3.0",
+    "sequelize": "^6.6.2",
+    "serve-favicon": "^2.5.0",
+    "sqlite3": "^5.0.2",
+    "uuid": "^8.3.2",
+    "vhost": "^3.0.2"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "jest": "^27.0.4",
+    "jest-cli": "^27.0.4",
+    "npm-check-updates": "^11.6.0",
+    "npm-run-all": "^4.1.5",
+    "redoc-cli": "^0.11.4",
+    "supertest": "^6.1.3"
+  }
+}

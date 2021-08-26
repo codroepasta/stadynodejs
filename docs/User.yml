@@ -1,0 +1,239 @@
+openapi: 3.0.0
+info:
+  title: Sample
+  version: '0.0'
+  description: |-
+    ユーザー情報を取得するAPIがあると仮定した場合のSwaggerサンプル
+servers:
+  - url: https://dev.domain/api
+    description: |-
+      開発環境
+  - url: https://stage.domain/api
+    description: |-
+      ステージング環境
+  - url: https://domain/api
+    description: |-
+      本番環境
+
+paths:
+  /user/list:
+    parameters: #リクエストパラメータ
+      - $ref: '#/components/parameters/Authorization'
+    get:
+      tags:
+        - user
+      summary: ユーザー管理
+      description: |-
+        IDを指定しユーザー情報の一覧を取得
+      parameters: #リクエストパラメータ
+        - $ref: '#/components/parameters/Offset'
+        - $ref: '#/components/parameters/Limit'
+      #requestBody: #リクエストボディ
+      responses: #レスポンス
+        200:
+          description: |-
+            ユーザー情報取得時
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              example:
+                statusCode: 200
+                body:
+                  - id: 1
+                    login_id: TestUser1
+                    authorities:
+                      - id: 1
+                        name: ADMIN
+                  - id: 2
+                    login_id: TestUser2
+                    authorities:
+                      - id: 2
+                        name: USER
+  /user/{id}:
+    parameters: #リクエストパラメータ
+      - $ref: '#/components/parameters/Authorization'
+      - $ref: '#/components/parameters/Id'
+    get:
+      tags:
+        - user
+      summary: ユーザー管理
+      description: |-
+        IDを指定しユーザー情報を取得
+      #parameters: #リクエストパラメータ
+      #requestBody: #リクエストボディ
+      responses: #レスポンス
+        200:
+          description: |-
+            ユーザー情報取得時
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              example:
+                statusCode: 200
+                body:
+                  id: 1
+                  login_id: TestUser1
+                  authorities:
+                    - id: 1
+                      name: ADMIN
+    put:
+      tags:
+        - user
+      summary: ユーザー管理
+      description: |-
+        ユーザー情報を変更
+      #parameters: #リクエストパラメータ
+      requestBody: #リクエストボディ
+        description: |-
+          変更するユーザー情報
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+            example:
+              user_id: TestUser1
+              password: '********'
+      responses: #レスポンス
+        200:
+          description: |-
+            成功
+          content:
+            application/json:
+              example:
+                statusCode: 200
+                body:
+                  id: 1
+    delete:
+      tags:
+        - user
+      summary: |-
+        ユーザー管理
+      description: |-
+        ユーザー情報を論理削除
+      #parameters: #リクエストパラメータ
+      #requestBody: #リクエストボディ
+      responses: #レスポンス
+        200:
+          description: 成功
+          content:
+            application/json:
+              example:
+                statusCode: 200
+                body:
+                  id: 1
+  /user:
+    post:
+      tags:
+        - user
+      summary: |-
+        ユーザー管理
+      description: |-
+        ユーザー情報を登録
+      #parameters: #リクエストパラメータ
+      requestBody: #リクエストボディ
+        description: |-
+          登録するユーザー情報
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+            example:
+              user_id: TestUser
+              password: '********'
+              authorities:
+                - ADMIN
+      responses: #レスポンス
+        200:
+          description: |-
+            成功
+          content:
+            application/json:
+              example:
+                statusCode: 200
+                body:
+                  id: 1
+
+components:
+  parameters:
+    Authorization:
+      in: header
+      name: Authorization
+      description: |-
+        アクセストークン
+      schema:
+        type: string
+        nullable: false
+        format: JWT
+      required: true
+      allowEmptyValue: false
+    Offset:
+      in: query
+      name: offset
+      description: |-
+        レコードのOffset
+      schema:
+        type: integer
+        nullable: false
+        minimum: 0
+        default: 0
+      required: false
+      allowEmptyValue: true
+    Limit:
+      in: query
+      name: limit
+      description: |-
+        レコードのlimit
+      schema:
+        type: integer
+        nullable: false
+        minimum: 1
+        maximum: 500
+        default: 100
+      required: false
+      allowEmptyValue: true
+    Id:
+      in: path
+      name: id
+      description: |-
+        ユーザーのID
+      schema:
+        type: integer
+        nullable: false
+      required: true
+      allowEmptyValue: false
+  schemas:
+    User:
+      type: object
+      required:
+        - id
+        - login_id
+      properties:
+        id:
+          type: integer
+        login_id:
+          type: string
+        password:
+          type: string
+        authorities:
+          type: array
+          items:
+            $ref: '#/components/schemas/Authority'
+    Authority:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+
+#security:
+#  ...
+#tags:
+#  ...
+#externalDocs:
+#  ...
